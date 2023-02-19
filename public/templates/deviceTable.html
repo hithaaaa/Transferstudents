@@ -2,59 +2,65 @@
 <link type="text/css" href="js/libs/bootstrap/css/bootstrap.css">
 
 <link href="css/iot.css" rel="stylesheet" type="text/css">
-
-    <div class="float-container">
-      <div class="float-child">
-        <h3>Motion sensors</h3>
+<style>
+{font-family: arial, sans-serif}
+</style>
+    <div class="container">
+      <div class="col">
+        
+        <h2 class='p1'>Heart-beat sensor</h2>
+        
         <table>
-
-        <% data.forEach(function(record){  %>
-        <% if (record.type == "Motion-senser") { %>
+          
           <tr>
-            <th>Device Id: <%= record.user_id %> </th>
-            <th>Device Name: <%= record.name %> </th>
-            <th><button class='displayMSPanel' id="<%= record.user_id %>">Click</button></th>
+            
+            <th class = "p1">Devices: 39 </th>
+            <th class = "p1"><button class='displayStatPanel' id="medical-id">Statistics</button></th>
+            
           </tr>
           
-        <% } %>
-        <% }) %>
+        
+        
         </table>
+      <div class="mycol"></div>
 
-
-        <h3>GPS</h3>
-
+        <h2 class="p1">GPS</h2>
         <table>
 
 
         <% data.forEach(function(record){  %>
         <% if (record.type == "GPS") { %>
           <tr>
-            <th>Device Id: <%= record.user_id %> </th>
-            <th>Device Name: <%= record.name %> </th>
-            <th><button class='displayGPSPanel' id="<%= record.user_id %>">Click</button></th>
+             <!--th>Device Id: <%= record.user_id %> </th-->
+            <th class = "p1">Device Name: <%= record.name %> </th>
+            <th class = "p1"><button class='displayGPSPanel' id="<%= record.user_id %>">Click</button></th>
           </tr>
           
         <% } %>
         <% }) %>
         </table>
+        <div class="mycol"></div>
 
-        <h3>Phones</h3>
+        <h2 class = "p1">Phones</h2>
+        
         <table>
         <% data.forEach(function(record){  %>
         <% if (record.type == "phone") { %>
           <tr>
-            <th>Device Id: <%= record.user_id %> </th>
-            <th>Device Name: <%= record.name %> </th>
-            <th><button class='displayGPSPanel' id="<%= record.user_id %>">Click</button></th>
+             <!--th>Device Id: <%= record.user_id %> </th-->
+            <th class = "p1">Device Name: <%= record.name %> </th>
+            <th class = "p1"><button class='displayGPSPanel' id="<%= record.user_id %>">Last-known Location</button></th>
+        <th class = "p1"><button class='displayGPSPanelAll' id="<%= record.user_id %>">All Locations</button></th>
           </tr>
           
         <% } %>
         <% }) %>
 
         </table>
-      </div>
+      <div class="mycol"></div>
+    </div>
 
-      <div class="float-child" >
+      <div class="col" >
         <div class="GPSPanel"></div>
       </div>    
 

@@ -1,13 +1,22 @@
-
+<style>
+{font-family: arial, sans-serif}
+</style>
 <table>
 
 <% data.forEach(function(record){ %>
+<% if (chosenID == record.id){ %>
+<% record.thing.properties.forEach(function(property){ %>
   <tr>
-    <th>Property: <%= data.name %> </th>
+    <th>Property: <%= property.name %> </th>
     <br />
-    <th>Last Value: <%= data.last_value %> </th>
-    
+    <% if (typeof property.last_value == 'string') {%>
+      <th>Last Value: <%= property.last_value %> </th>
+    <% } else { %>
+      <th>Last Value: <%= JSON.stringify(property.last_value) %> </th>
+    <%}%>
   </tr>
+  <% }) %>
+  <% } %>
   <% }) %>
 </table>
 <div class="container content-area">

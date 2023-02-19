@@ -4,6 +4,33 @@ var ArduinoIotClient = require('@arduino/arduino-iot-client');
 
 const {Device1} = require('../models/device-model');
 const {Device2} = require('../models/device-model');
+const {Device3} = require('../models/device-model');
+
+// cron.schedule('* * * * * *', function() {
+//   console.log('running a task every second');
+//   reportMedical();
+// });
+
+async function reportMedical() {
+
+var bp1 = Math.floor(70 + (150-70)*Math.random()); //Math.floor(x + (y - x) * Math.random());  random number between x and y
+var pulse1 = Math.floor(90 + (120-90)*Math.random()); //Math.floor(x + (y - x) * Math.random());  random number between x and y
+var device_type = "Medical";
+var device_id = "498c24f0-4d22-4881-a513-88335499dd6c"
+
+const deviceEvent = new Device3({deviceId : device_id, events:{heart_beat_reader: bp1, pulse_reader: pulse1}, deviceType : "Medical" });
+
+
+    deviceEvent
+        .save()
+        .then(() => {
+            
+        })
+        .catch(error => {
+            console.log(error)
+        })    
+
+}
 
 createDevice = (req, res) => {
 	var req_body = req.query;
@@ -88,7 +115,8 @@ deleteDevice = (req, res) => {
 // }
 
 async function getDevices (req, res) { 
-
+	networkAPI();
+	//createData();
 	var returnedToken = await getApiToken();
 	//var returnedToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwczovL2FwaTIuYXJkdWluby5jYy9pb3QiLCJhenAiOiJZVkN2SDljUHN3T0h0RU02OEo3NFo5QlI0SVE2eEF3cSIsImV4cCI6MTY3NjcyMjE3MCwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIiwiaHR0cDovL2FyZHVpbm8uY2MvY2xpZW50X2lkIjoiSGl0aGEtY2xvdWQiLCJodHRwOi8vYXJkdWluby5jYy9pZCI6ImEzMGNkNzMzLThkYWUtNGQ4Ni1iOTk2LTE4M2QxNTE1N2EzMSIsImh0dHA6Ly9hcmR1aW5vLmNjL3JhdGVsaW1pdCI6MSwiaHR0cDovL2FyZHVpbm8uY2MvdXNlcm5hbWUiOiJyYW11a3VyYSIsImlhdCI6MTY3NjcyMTg3MCwic3ViIjoiWVZDdkg5Y1Bzd09IdEVNNjhKNzRaOUJSNElRNnhBd3FAY2xpZW50cyJ9.VtXT89NeVnMnThC19EelWCZqcgLVjbOVUWmMIE90p8c";
 	//console.log("THE API TOKEN " + returnedToken)
@@ -111,9 +139,9 @@ async function getDevices (req, res) {
 
         res.send(devices)
         var conn =  req.param('conn',"")
-        cron.schedule('* * * * *', function() {
-			saveDevice2(devices);
-        });
+   //      cron.schedule('* * * * *', function() {
+			// saveDevice2(devices);
+   //      });
 		
     }), error => {
 	  console.error(error);
@@ -233,7 +261,30 @@ async function getProperties (req, res) {
 //function retrieves each property like gps, acc etc
 //here, gps id is hardcoded
 
+async function createData() {
+			var ArduinoIotClient = require('@arduino/arduino-iot-client');
+			var defaultClient = ArduinoIotClient.ApiClient.instance;
 
+			// Configure OAuth2 access token for authorization: oauth2
+			var oauth2 = defaultClient.authentications['oauth2'];
+			oauth2.accessToken = await getApiToken();
+
+			var api = new ArduinoIotClient.PropertiesV2Api()
+
+			//cron.schedule('* * * * * *', function() {
+			
+			var id = 'f938fe93-b695-4fbb-a09c-f19ab8023196'; // {String} The id of the thing
+			var pid = '870f815e-80e5-4ae1-b392-9fb106e44eae'; // {String} The id of the property
+			var property = Math.floor(Math.random() * (120 - 40 + 1) + 40)
+			api.propertiesV2Update(id, pid, property).then(data => {
+			  console.log("Done "+JSON.stringify(data))
+			}, function(error) {
+			  console.error(error);
+			});
+		//});
+			
+
+		}
 
 async function propertiesShow (req, res) {
 
@@ -264,13 +315,25 @@ async function propertiesShow (req, res) {
 			        .catch(error => {
 			            console.log("Error in propertiesShow()")
 			        })
-			//networkAPI();
+			
 			console.log(JSON.stringify(data))
 		  res.send(data);
 		}), error => {
 		  console.error(error);
 		};
 	}
+}
+function getMedicalData(req, res) {
+		Device3.find().exec(function(err, data) {
+
+		res.send(data);
+	})
+}
+function getLocationData(req, res) {
+	Device2.find().exec(function(err, data) {
+
+		res.send(data);
+	})
 }
 
 
@@ -325,5 +388,7 @@ module.exports = {
     showDevice,
     getProperties,
     propertiesShow,
-    deleteDevice
+    deleteDevice,
+    getLocationData,
+    getMedicalData
 }

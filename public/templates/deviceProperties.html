@@ -1,29 +1,44 @@
-<div>
+<div class="container">
+
+<link href="css/iot.css" rel="stylesheet" type="text/css">
+
+  <style>
+{font-family: arial, sans-serif}
+</style>
+<div class="col">
 <table>
 
 <% data.forEach(function(record){  %>
+  <%if (record.deviceType=="Medical") {%>
+
   <tr>
-    <th>Device Name: <%= record.name %> </th>
-    <th>Device Type: <%= record.type %> </th>
+    <th class="p1">Device Name: <%= record.name %> </th>
+    <th class="p1">Device Type: Medical </th>
     <th><button class="displayDeviceForProperties" id="<%= record.id %>" >Click</button></th>
     <!-- should be deviceId-->
     
   </tr>
-  
+  <%} else {%>
+  <tr>
+    <th class="p1">Device Name: <%= record.name %> </th>
+    <th class="p1">Device Type: <%= record.type %> </th>
+    <th><button class="displayDeviceForProperties" id="<%= record.id %>" >Click</button></th>
+    <!-- should be deviceId-->
+    
+  </tr>
+  <%}%>
 <% }) %>
+</div>
 </table>
 
 
 </div>
-<div class="container content-area">
-      <div class="row">
+<div class="col">
         <div class="col-lg-6 PropertiesPanel" >
         </div>    
 
         <div class="col-lg-6 area2" > 
-          Input minimum radius
+          
         </div>    
-        </div>
-      </div>  
-
-
+      </div>
+     
