@@ -3,9 +3,10 @@
 .main {margin-top: 70px; padding-left: 50px; padding-right: 50px;}
 .row {padding: 10px;}
 
-.mm-content-header{
-	background-color: #566D7E;
-	height: 100px;
+.content-header{
+	background-color: #CAE7D4;
+	height: 100%;
+	vertical-align: middle;
 	text-align: vertical;
 }
 

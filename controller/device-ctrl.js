@@ -75,7 +75,7 @@ deleteDevice = (req, res) => {
 	Device1.remove({deviceId:req.body.device_id}).exec(function(err){
 		console.log(err);
 		Device1.find().exec(function(err, data) {
-			res.send(data);
+			res.send(data);	
 		})
 	}) 
         

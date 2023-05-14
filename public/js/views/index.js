@@ -62,9 +62,9 @@ define(['text!templates/index.html','text!templates/deviceTable.html','text!temp
 								}) 
 						  });
 		},
-		getMedicalStats: function(e) {
+		getMedicalStats: function() {
 				
-					this.$('.PropertiesPanel').html(_.template(medicalDataTemplate));
+					this.$('.PropertiesPanel').html(_.template(medicalDataTemplate, {data:[{}]}));
 		
 		},
 		newDeviceClicked: function(e) {
